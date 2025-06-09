@@ -116,7 +116,25 @@ export default function Home() {
       </section>
 
       {/* Best Sellers This Month Section - Restored Oval Design */}
-      <section className="py-20 bg-gray-50">
+      <section className="relative py-20 bg-gray-50">
+        <div className="absolute top-20 left-10 w-20 h-20 rounded-full  opacity-20">
+          <Image
+            src={"/images/front.png"}
+            alt="Decorative flower"
+            fill
+            className="object-contain"
+            sizes={"80px, 80px"}
+          />
+        </div>
+        <div className="absolute  top-20 right-10 w-20 h-20 rounded-full  opacity-20">
+          <Image
+            src={"/images/front.png"}
+            alt="Decorative flower"
+            fill
+            className="object-contain"
+            sizes={"(max-width: 48px), 48px"}
+          />
+        </div>
         <div className="container mx-auto px-4">
           <h2 className={`font-serif text-4xl md:text-5xl text-center mb-16`}>
             Our Best Sellers

@@ -3,7 +3,8 @@
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, useAnimation } from "framer-motion";
-
+import { Playfair_Display } from "next/font/google";
+const playfair = Playfair_Display({ subsets: ["latin"] });
 const events = [
   {
     id: 1,
@@ -39,6 +40,7 @@ export default function Events() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
   const controls = useAnimation();
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -79,7 +81,7 @@ export default function Events() {
   };
 
   return (
-    <section className="relative py-20 bg-gray-50" ref={ref}>
+    <section className="relative pb-20 pt-10 bg-gray-50" ref={ref}>
       <div className="absolute top-20 left-10 w-20 h-20 rounded-full  opacity-20">
         <Image
           src={"/images/front.png"}
@@ -89,7 +91,7 @@ export default function Events() {
           sizes={"80px, 80px"}
         />
       </div>
-      <div className="absolute top-20 right-10 w-20 h-20 rounded-full  opacity-20">
+      <div className="absolute  top-20 right-10 w-20 h-20 rounded-full  opacity-20">
         <Image
           src={"/images/front.png"}
           alt="Decorative flower"
@@ -101,6 +103,11 @@ export default function Events() {
       <div className="container mx-auto px-4">
         <h2 className="text-4xl md:text-5xl text-center mb-16 font-serif">
           Events We Decorate
+          <span
+            className={`${playfair.className} text-sm tracking-wide block text-center`}
+          >
+            For your special occasions
+          </span>
         </h2>
 
         <div className="space-y-10">

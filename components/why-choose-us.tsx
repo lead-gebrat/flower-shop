@@ -50,8 +50,7 @@ export default function WhyChooseUs() {
   }, [isInView, controls]);
 
   return (
-    <section className="pb-20 bg-gray-50 relative overflow-hidden" ref={ref}>
-      {/* Background decorative elements */}
+    <section className="relative pb-20 bg-gray-50  overflow-hidden" ref={ref}>
       <div className="absolute top-20 left-10 w-16 h-16 md:w-20 md:h-20 rounded-full opacity-20">
         <Image
           src="/images/front.png"
@@ -71,7 +70,7 @@ export default function WhyChooseUs() {
         />
       </div>
 
-      <div className="container mx-auto px-4">
+      <div className="container relative mx-auto px-4">
         <div className="flex justify-center items-center gap-2 mb-8 md:mb-16">
           <h2
             className={`font-serif text-3xl md:text-4xl lg:text-5xl text-center`}

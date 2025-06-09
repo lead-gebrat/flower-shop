@@ -165,7 +165,7 @@ export default function Products() {
   };
 
   return (
-    <section className="relative pb-20 pt-6 lg:px-20 bg-white" ref={ref}>
+    <section className="relative pb-20 lg:px-20 bg-white" ref={ref}>
       <div className="absolute top-20 left-10 w-20 h-20 rounded-full  opacity-20">
         <Image
           src={"/images/front.png"}
@@ -185,13 +185,18 @@ export default function Products() {
         />
       </div>
       <div className="container mx-auto py-4 px-4 ">
-        <div className="mb-15 p-4">
+        <div className="mb-15 px-4 py-10">
           <h2 className={`font-serif text-4xl md:text-5xl text-center `}>
             Our Flowers
+            <span
+              className={`${playfair.className} text-sm tracking-wide block text-center`}
+            >
+              Hand picked with care
+            </span>
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 p-12 lg:grid-cols-3 gap-y-8 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 p-12 lg:grid-cols-3 gap-y-14 gap-8">
           {products.map((product, index) => (
             <motion.div
               key={product.id}

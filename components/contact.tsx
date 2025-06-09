@@ -61,7 +61,7 @@ export default function Contact() {
   };
 
   return (
-    <section className="relative py-20 bg-white overflow-hidden">
+    <section className="relative pb-20 pt-10 bg-white overflow-hidden">
       <div className="absolute top-20 left-10 w-20 h-20 rounded-full  opacity-20">
         <Image
           src={"/images/front.png"}
