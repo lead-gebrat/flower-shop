@@ -4,76 +4,139 @@ import Image from "next/image";
 import Products from "@/components/products";
 import Events from "@/components/events";
 import Contact from "@/components/contact";
-import Navbar from "@/components/navbar";
+import WhyChooseUs from "@/components/why-choose-us";
 import { Playfair_Display } from "next/font/google";
 import { motion } from "framer-motion";
-import WhyChooseUs from "@/components/why-choose-us";
+import { useCart } from "@/lib/cart-context";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 export default function Home() {
+  const { dispatch } = useCart();
+
+  const handleBestSellerAddToCart = (item: (typeof bestSellersData)[0]) => {
+    dispatch({
+      type: "ADD_ITEM",
+      payload: {
+        id: item.id,
+        name: item.name,
+        price: Number.parseFloat(item.price),
+        image: item.image,
+        description: `Best selling ${item.name.toLowerCase()} arrangement`,
+        inStock: 10,
+      },
+    });
+  };
+
+  const scrollToProducts = () => {
+    const productsSection = document.getElementById("products");
+    if (productsSection) {
+      productsSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <main className="min-h-screen overflow-x-hidden">
-      <Navbar />
+      {/* Hero Section with elegant background */}
+      <section className="relative bg-white min-h-screen flex items-center">
+        <div className="container mx-auto px-6 pt-24 pb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Left Content */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="lg:col-span-4 flex flex-col justify-center"
+            >
+              <h1
+                className={`${playfair.className} text-6xl text-start tracking-widest font-medium md:text-5xl  text-gray-900 leading-tight mb-6`}
+              >
+                Center Garden
+                <span
+                  className={`block ${playfair.className} pl-2 text-lg tracking-wider`}
+                >
+                  Grace in your hands, joy in your day
+                </span>
+              </h1>
+              <p
+                className={
+                  "text-gray-700  font-sans text-lg leading-relaxed mb-8"
+                }
+              >
+                Exquisite floral arrangements for every occasion. We bring
+                nature's beauty into your life with carefully crafted bouquets,
+                wedding decorations, and special event styling.
+              </p>
+              <div>
+                <button
+                  onClick={scrollToProducts}
+                  className=" bg-gray-900 p-6 text-white hover:bg-opacity-90 px-8 py-3 transition-colors duration-300"
+                >
+                  Shop Now
+                </button>
+              </div>
+            </motion.div>
 
-      {/* Hero Section with black background and flower image */}
-      <section className="relative bg-black min-h-[100vh] flex items-center justify-center overflow-visible">
-        <div className="container mx-auto text-center relative z-30 pt-20 pb-60">
-          <h1
-            className={`${playfair.className} text-10xl md:text-7xl text-white font-bold mb-3 opacity-90`}
-          >
-            Violet Bloom
-          </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mx-auto mb-8 opacity-90">
-            Exquisite floral arrangements for every occasion
-          </p>
-        </div>
-        <motion.div
-          className="absolute  transform -translate-x-1/2 z-20"
-          style={{ top: "40%" }}
-          initial={{ scale: 1.2 }}
-          animate={{ scale: 1 }}
-          transition={{
-            duration: 1.5,
-            ease: "easeOut",
-            delay: 0,
-            immediateRender: true,
-          }}
-        >
-          <div className="relative w-[300px] md:w-[400px] lg:w-[600px] h-[500px] md:h-[500px] lg:h-[600px]">
-            <Image
-              src="/images/purple-bouquet.png"
-              alt="Beautiful Purple Flower Bouquet"
-              fill
-              priority
-              className="object-cover"
-              sizes="(max-width: 900px) 90vw, (max-width: 1200px) 60vw, 50vw"
-            />
+            {/* Right Content - Three Panels */}
+            <div className="lg:col-span-8 grid gap-4 grid-cols-3">
+              {featuredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.2 }}
+                  className={`relative w-[calc(100%)] h-[500px] ${product.bgColor} overflow-visible`} // Ensure overflow-visible
+                >
+                  <div className="absolute overflow-visible  h-full w-[calc(100%)] ">
+                    {" "}
+                    {/* Adjusted left and width */}
+                    <Image
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      fill
+                      className="object-cover object-center"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/30 to-transparent">
+                    <h3
+                      className={`${playfair.className} ${product.text} text-xl`}
+                    >
+                      {product.name}
+                    </h3>
+                    <p className="text-white/80 text-sm mt-1">
+                      {product.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
-        </motion.div>
-        <Image
-          src={"/images/pur.jpg"}
-          alt={"pur"}
-          width={20}
-          height={20}
-        ></Image>
+        </div>
       </section>
 
-      {/* Best Sellers This Month Section */}
+      {/* Best Sellers This Month Section - Restored Oval Design */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2
-            className={`${playfair.className} text-4xl md:text-3xl text-center mb-16`}
-          >
-            Our Best Sellers This Month
+          <h2 className={`font-serif text-4xl md:text-5xl text-center mb-16`}>
+            Our Best Sellers
+            <span className="block text-sm tracking-widest">
+              This Month's Top Picks
+            </span>
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 max-w-5xl mx-auto">
             {bestSellersData.map((item, index) => (
-              <div key={index} className="flex flex-col items-center">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="flex flex-col items-center"
+              >
                 <div className="relative">
                   {/* Oval container */}
-                  <div className="w-64 h-80 bg-[#f0f7f7] rounded-[50%] flex flex-col items-center justify-center relative overflow-hidden">
+                  <div className="w-64 h-80 bg-[#f0f7f7] rounded-[50%] flex flex-col items-center justify-center shadow-md relative overflow-hidden">
                     {/* The flower image positioned at the top */}
                     <div className="absolute top-0 left-1/2 transform -translate-x-1/2">
                       <div className="relative w-48 h-48 mt-2">
@@ -89,9 +152,6 @@ export default function Home() {
 
                     {/* Text content inside the oval */}
                     <div className="absolute bottom-0 left-0 right-0 px-4 pb-10 pt-2 text-center">
-                      <p className="text-gray-600 text-sm">
-                        For Special Person
-                      </p>
                       <h3
                         className={`${playfair.className} text-lg font-bold mt-1`}
                       >
@@ -102,7 +162,10 @@ export default function Home() {
                   </div>
 
                   <div className="text-center mt-4">
-                    <button className="bg-[#f0f7f7] text-teal-700 p-2 rounded-full hover:bg-teal-50 transition">
+                    <button
+                      onClick={() => handleBestSellerAddToCart(item)}
+                      className="bg-black text-white border-2 p-3 rounded-full hover:bg-opacity-90 transition flex items-center justify-center mx-auto"
+                    >
                       <svg
                         width="24"
                         height="24"
@@ -111,27 +174,23 @@ export default function Home() {
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M8 12H16M12 8V16"
+                          d="M3 3H5L5.4 5M7 13H17L19 6H5.4M7 13L5.4 5M7 13L6.2 15.8C6.067 16.42 6.52 17 7.16 17H17M17 17C16.45 17 16 17.45 16 18C16 18.55 16.45 19 17 19C17.55 19 18 18.55 18 18C18 17.45 17.55 17 17 17ZM7 17C6.45 17 6 17.45 6 18C6 18.55 6.45 19 7 19C7.55 19 8 18.55 8 18C8 17.45 7.55 17 7 17Z"
                           stroke="currentColor"
                           strokeWidth="2"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
-                        <path
-                          d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 2 12C2 17.5228 6.47715 22 12 22Z"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                        />
                       </svg>
                     </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Why Choose Us Section */}
       <WhyChooseUs />
 
       {/* Products Section with oval containers */}
@@ -153,10 +212,28 @@ export default function Home() {
       <footer className="bg-gray-900 text-white py-10">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between">
-            <div className="mb-6 md:mb-0">
-              <h3 className={`${playfair.className} text-2xl font-bold mb-4`}>
-                Violet Bloom
-              </h3>
+            <div className="mb-6  md:mb-0">
+              <div className="flex justify-start items-center">
+                <div>
+                  <Image
+                    src="/images/tulipLogo2.png"
+                    alt="Center Garden Logo"
+                    width={50}
+                    height={50}
+                    className=""
+                  />
+                </div>
+                <div>
+                  <h3
+                    className={`${playfair.className} tracking-wider  text-2xl font-medium mb-4`}
+                  >
+                    CENTER GARDEN
+                    <span className="block text-center tracking-widest text-sm">
+                      ELEGANT BLOOMS
+                    </span>
+                  </h3>
+                </div>
+              </div>
               <p className="text-gray-400 max-w-xs">
                 Bringing nature's beauty into your life with carefully crafted
                 floral arrangements.
@@ -212,9 +289,9 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>123 Flower Street, Garden City</li>
-                <li>Phone: (555) 123-4567</li>
-                <li>Email: hello@violetbloom.com</li>
+                <li>Bole Atlas, Garden center</li>
+                <li>Phone: (+251) 941139289</li>
+                <li>Email: centerGarden@gmail.com</li>
               </ul>
               <div className="flex space-x-4 mt-4">
                 <a
@@ -258,7 +335,7 @@ export default function Home() {
           </div>
           <div className="mt-10 pt-6 border-t border-gray-800 text-center text-gray-400">
             <p>
-              &copy; {new Date().getFullYear()} Violet Bloom. All rights
+              &copy; {new Date().getFullYear()} Center Garden. All rights
               reserved.
             </p>
           </div>
@@ -268,39 +345,53 @@ export default function Home() {
   );
 }
 
-const newArrivalsData = [
+// Featured products with vertical panels (same as before)
+const featuredProducts = [
   {
-    name: "Spring Elegance",
-    description: "A delicate mix of spring blooms in pastel colors.",
-    price: "59.99",
-    image: "/placeholder.svg?height=300&width=400",
+    id: 1,
+    name: "Pink Rose",
+    price: 49.99,
+    image: "/images/pinku.png",
+    bgColor: "bg-pink-100",
+    text: "text-pink-400 font-bold",
+    description: "Symbolize gratitude, appreciation, and gentle affection.",
   },
   {
-    name: "Sunset Romance",
-    description: "Vibrant roses and lilies in warm sunset tones.",
-    price: "69.99",
-    image: "/placeholder.svg?height=300&width=400",
+    id: 2,
+    name: "Purple Daisy",
+    price: 39.99,
+    image: "/images/purplee.png",
+    bgColor: "bg-purple-100",
+    text: "text-purple-400 font-bold",
+    description: "Represent ample creativity, royalty, and pride.",
   },
   {
-    name: "Pure Serenity",
-    description: "White and cream blooms for a peaceful arrangement.",
-    price: "54.99",
-    image: "/placeholder.svg?height=300&width=400",
+    id: 3,
+    name: "Yellow Dandelion",
+    price: 29.99,
+    image: "/images/yellow.png",
+    bgColor: "bg-yellow-100",
+    text: "text-yellow-400 font-bold",
+    description: "Symbolize Resilience, hope, and youthful joy.",
   },
 ];
 
+// Best sellers data (restored from previous design)
 const bestSellersData = [
   {
+    id: 101,
     name: "Be My Valentine",
     price: "27.23",
     image: "/images/valentine.png",
   },
   {
-    name: "Mother's Day",
+    id: 102,
+    name: "Mother's Day Special",
     price: "25.36",
     image: "/images/mothers2.png",
   },
   {
+    id: 103,
     name: "Happy Birthday",
     price: "30.27",
     image: "/images/pink_lily.png",

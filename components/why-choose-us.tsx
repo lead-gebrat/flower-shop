@@ -50,32 +50,140 @@ export default function WhyChooseUs() {
   }, [isInView, controls]);
 
   return (
-    <section className="py-20 bg-gray-50 relative overflow-hidden" ref={ref}>
+    <section className="pb-20 bg-gray-50 relative overflow-hidden" ref={ref}>
       {/* Background decorative elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 rounded-full bg-pink-100 opacity-20"></div>
-      <div className="absolute bottom-20 right-10 w-16 h-16 rounded-full bg-purple-100 opacity-20"></div>
-      <div className="absolute top-1/2 left-1/4 w-8 h-8 rounded-full bg-pink-100 opacity-10"></div>
+      <div className="absolute top-20 left-10 w-16 h-16 md:w-20 md:h-20 rounded-full opacity-20">
+        <Image
+          src="/images/front.png"
+          alt="Decorative flower"
+          fill
+          className="object-contain"
+          sizes="80px"
+        />
+      </div>
+      <div className="absolute top-20 right-10 w-16 h-16 md:w-20 md:h-20 rounded-full opacity-20">
+        <Image
+          src="/images/front.png"
+          alt="Decorative flower"
+          fill
+          className="object-contain"
+          sizes="80px"
+        />
+      </div>
 
       <div className="container mx-auto px-4">
-        <div className="flex justify-center items-center gap-2 mb-4">
-          <div className="w-6 h-6 flex items-center justify-center">
-            <div className="w-4 h-4 bg-pink-300 rounded-full"></div>
-          </div>
+        <div className="flex justify-center items-center gap-2 mb-8 md:mb-16">
           <h2
-            className={`${playfair.className} text-4xl md:text-5xl text-center`}
+            className={`font-serif text-3xl md:text-4xl lg:text-5xl text-center`}
           >
             Why Choose Us
+            <span
+              className={`${playfair.className} block text-sm tracking-wider`}
+            >
+              your goto flower shop
+            </span>
           </h2>
-          <div className="w-6 h-6 flex items-center justify-center">
-            <div className="w-4 h-4 bg-pink-300 rounded-full"></div>
+        </div>
+
+        {/* Desktop and Tablet Layout */}
+        <div className="hidden md:block">
+          <div className="relative min-h-[500px] lg:min-h-[600px]">
+            {/* Central image with circular gradient container */}
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+              <motion.div
+                className="relative w-48 h-48 lg:w-64 lg:h-64 rounded-[50%]"
+                style={{
+                  background:
+                    "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,192,203,1) 50%, rgba(255,182,193,1) 100%)",
+                }}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  visible: {
+                    opacity: 1,
+                    scale: 1,
+                    transition: { duration: 0.5 },
+                  },
+                }}
+                initial="hidden"
+                animate={controls}
+              >
+                <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-36 h-36 lg:w-48 lg:h-48">
+                  <Image
+                    src="/images/pinkTulips.png"
+                    alt="Flower Bouquet"
+                    fill
+                    className="object-contain"
+                    sizes="(max-width: 1024px) 144px, 192px"
+                  />
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Features positioned around the circle - Responsive */}
+            {features.map((feature) => {
+              let positionClasses = "";
+              let textAlign = "";
+
+              switch (feature.position) {
+                case "top-left":
+                  positionClasses =
+                    "absolute top-8 lg:top-12 right-1/2 mr-8 lg:mr-16";
+                  textAlign = "text-right";
+                  break;
+                case "top-right":
+                  positionClasses =
+                    "absolute top-8 lg:top-12 left-1/2 ml-8 lg:ml-16";
+                  textAlign = "text-left";
+                  break;
+                case "bottom-left":
+                  positionClasses =
+                    "absolute bottom-8 lg:bottom-12 right-1/2 mr-8 lg:mr-16";
+                  textAlign = "text-right";
+                  break;
+                case "bottom-right":
+                  positionClasses =
+                    "absolute bottom-8 lg:bottom-12 left-1/2 ml-8 lg:ml-16";
+                  textAlign = "text-left";
+                  break;
+                default:
+                  break;
+              }
+
+              return (
+                <motion.div
+                  key={feature.id}
+                  className={`${positionClasses} ${textAlign} w-64 lg:w-80`}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5, delay: feature.id * 0.1 },
+                    },
+                  }}
+                  initial="hidden"
+                  animate={controls}
+                >
+                  <h3
+                    className={`${playfair.className} text-lg lg:text-xl font-semibold mb-2`}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-600 text-sm lg:text-base">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
-        <div className="mt-16 relative h-[600px] md:h-[700px]">
-          {/* Central image with circular gradient container */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+        {/* Mobile Layout */}
+        <div className="md:hidden">
+          {/* Central image */}
+          <div className="flex justify-center mb-12">
             <motion.div
-              className="relative w-64 h-64 rounded-[50%]"
+              className="relative w-40 h-40 rounded-[50%]"
               style={{
                 background:
                   "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,192,203,1) 50%, rgba(255,182,193,1) 100%)",
@@ -91,63 +199,24 @@ export default function WhyChooseUs() {
               initial="hidden"
               animate={controls}
             >
-              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48">
+              <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32">
                 <Image
                   src="/images/pinkTulips.png"
                   alt="Flower Bouquet"
                   fill
                   className="object-contain"
-                  sizes="(max-width: 768px) 192px, 192px"
+                  sizes="128px"
                 />
               </div>
             </motion.div>
           </div>
 
-          {/* Features positioned absolutely around the circle */}
-          {features.map((feature) => {
-            let positionStyles = {};
-            switch (feature.position) {
-              case "top-left":
-                positionStyles = {
-                  top: "10%",
-                  left: "calc(50% - 480px)", // Shifted right to be closer to the circle
-                  textAlign: "right",
-                  maxWidth: "440px",
-                };
-                break;
-              case "top-right":
-                positionStyles = {
-                  top: "10%",
-                  left: "calc(50% + 80px)", // Positioned to the right of the circle
-                  textAlign: "left",
-                  maxWidth: "440px",
-                };
-                break;
-              case "bottom-left":
-                positionStyles = {
-                  bottom: "10%",
-                  left: "calc(50% - 480px)", // Shifted right to be closer to the circle
-                  textAlign: "right",
-                  maxWidth: "440px",
-                };
-                break;
-              case "bottom-right":
-                positionStyles = {
-                  bottom: "10%",
-                  left: "calc(50% + 80px)", // Positioned to the right of the circle
-                  textAlign: "left",
-                  maxWidth: "440px",
-                };
-                break;
-              default:
-                break;
-            }
-
-            return (
+          {/* Features in column layout */}
+          <div className="space-y-8">
+            {features.map((feature) => (
               <motion.div
                 key={feature.id}
-                className="absolute flex flex-col"
-                style={positionStyles}
+                className="text-center px-4"
                 variants={{
                   hidden: { opacity: 0, y: 20 },
                   visible: {
@@ -160,14 +229,16 @@ export default function WhyChooseUs() {
                 animate={controls}
               >
                 <h3
-                  className={`${playfair.className} text-xl font-semibold mb-2`}
+                  className={`${playfair.className} text-lg font-semibold mb-2`}
                 >
                   {feature.title}
                 </h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-600 text-sm max-w-xs mx-auto">
+                  {feature.description}
+                </p>
               </motion.div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </section>

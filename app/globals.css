@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Roboto Mono";
+  src: url("/fonts/RobotoMono-Bold.woff2") format("woff2"),
+    url("/fonts/RobotoMono-Bold.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @layer utilities {
@@ -91,4 +95,20 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/fonts/RobotoMono-Regular.woff2") format("woff2"),
+    url("/fonts/RobotoMono-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  src: url("/fonts/RobotoMono-Bold.woff2") format("woff2"),
+    url("/fonts/RobotoMono-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
 }
